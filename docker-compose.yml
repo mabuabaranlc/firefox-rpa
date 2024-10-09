@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  selenium_app:
+    build: .
+    container_name: selenium_rpa_app
+    ports:
+      - "4321:4321"
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ./app:/app
+    environment:
+      - DISPLAY=:99
+    stdin_open: true
+    tty: true

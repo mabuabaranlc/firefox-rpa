@@ -1,0 +1,5 @@
+selenium
+fastapi
+uvicorn
+requests
+webdriver-manager
