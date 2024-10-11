@@ -3,8 +3,10 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 import os
+import shutil
 import time
 import logging
+from datetime import datetime
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO)
@@ -36,12 +38,22 @@ def ejecutar_rpa():
         # Iniciar Firefox
         driver = webdriver.Firefox(options=options)
 
+        # Crear la carpeta 'screenshots' si no existe
+        screenshots_folder = './screenshots'
+        if not os.path.exists(screenshots_folder):
+            os.makedirs(screenshots_folder)
+
         # Cargar la página principal
         driver.get("https://www.supertransporte.gov.co/index.php/vigia/")
 
         # Esperar un tiempo para que la página cargue completamente
         time.sleep(5)
 
+        # Tomar captura de pantalla después de cargar la página
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        screenshot_path = os.path.join(screenshots_folder, f"screenshot_{timestamp}.png")
+        driver.save_screenshot(screenshot_path)
+        print(f"Captura de pantalla guardada en: {screenshot_path}")
         # Usar el XPath proporcionado para encontrar el enlace y hacer clic en él
         certificado_link = driver.find_element(By.XPATH, '//*[@id="post-6544"]/div/div[4]/div/div[2]/div/div[2]/p/span[2]/a')
         certificado_link.click()
@@ -63,6 +75,12 @@ def ejecutar_rpa():
 
         # Cerrar el navegador
         driver.quit()
+        
+        # if os.path.exists(f"./downloads/{downloaded_file}"):
+        #     os.remove(f"./downloads/{downloaded_file}")
+        #     return {"message": "existe"}
+        # else:
+        #     return {"message": "no existe"}
 
         return {"message": "Script ejecutado correctamente", "archivo_descargado": downloaded_file}
     
