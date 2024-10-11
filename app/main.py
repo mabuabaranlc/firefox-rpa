@@ -54,6 +54,7 @@ def ejecutar_rpa():
         screenshot_path = os.path.join(screenshots_folder, f"screenshot_{timestamp}.png")
         driver.save_screenshot(screenshot_path)
         print(f"Captura de pantalla guardada en: {screenshot_path}")
+
         # Usar el XPath proporcionado para encontrar el enlace y hacer clic en él
         certificado_link = driver.find_element(By.XPATH, '//*[@id="post-6544"]/div/div[4]/div/div[2]/div/div[2]/p/span[2]/a')
         certificado_link.click()
